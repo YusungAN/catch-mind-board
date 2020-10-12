@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
+
+.sizedbox {
+    height: 170px;
+}
+
+.title {
+    font-size: 10rem;
+    font-family: "Do Hyeon", sans-serif;
+    text-align: center;
+}
+
+.con {
+    display: flex;
+    justify-content: center;
+}
+
+.psolve {
+    width: 200px;
+    height: 50px;
+    background-attachment: grey;
+    border-radius: 50px;
+    margin-right: 20px;
+}
+
+.pprob {
+    width: 200px;
+    height: 50px;
+    background-attachment: grey;
+    border-radius: 50px;
+    margin-right: 20px;
+}
