@@ -1,9 +1,9 @@
 module.exports = {
-    secret: 'IGivEuPseCUritY',
+    secret: '비밀임',
     mysqlconfig: {
         host     : 'remotemysql.com',
-        user     : 'fZVTHuM8UJ',
-        password : '0UdHhXTFXC',
-        database : 'fZVTHuM8UJ'
+        user     : '비밀임',
+        password : '비밀임',
+        database : '비밀임'
     }
 };
