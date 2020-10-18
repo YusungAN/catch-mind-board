@@ -78,9 +78,9 @@ function Canvas({ onChange }) {
 
     const finishDraw = async () => {
         pos = { drawable: false, x: 0, y: 0 };
-        setTimeout(() => {
-            setNowCanvas(canvas.toDataURL());
-        }, 100);
+        // setTimeout(() => {
+        //     setNowCanvas(canvas.toDataURL());
+        // }, 100);
     };
 
     const selectEraser = async () => {

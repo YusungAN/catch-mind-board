@@ -15,10 +15,10 @@ function Ranking() {
                 setPostRanking(response);
                 //console.log(response);
             } else {
-                postRanking = ["랭킹을 불러오는데 실패했습니다."];
+                setPostRanking(["랭킹을 불러오는데 실패했습니다."]);
             }
         } catch (e) {
-            postRanking = ["랭킹을 불러오는데 실패했습니다."];
+            setPostRanking(["랭킹을 불러오는데 실패했습니다."]);
         }
     };
 

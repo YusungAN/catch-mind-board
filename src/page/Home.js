@@ -17,7 +17,7 @@ function Home({ history }) {
         } = await axios.get(
             `https://anyusung.team/api/check?token=${localStorage["anyusung-team-token"]}`
         );
-        console.log(id);
+        localStorage.setItem("yusungan-userid", id);
         const {data : {response}} = await axios.get(`https://anyusung.team/api/score/${id}`);
         setNickName(nickname);
         setIsLogged(success);

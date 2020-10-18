@@ -1,11 +1,11 @@
 import React from "react";
 import style from "styled-components";
 
-function PostBox({ id, imgdata, author, open }) {
+function PostBox({ id, imgdata, author, open, color }) {
     const PostBoxElement = style.div`
     width: 200px;
     height: 200px;
-    background-color: grey;
+    background-color: ${color ? "green" : "grey"};
     border-radius: 30px;
     box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.4);
     display: flex;

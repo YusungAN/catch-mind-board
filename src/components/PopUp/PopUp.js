@@ -52,32 +52,59 @@ function PopUp({ display, close, data }) {
             `https://anyusung.team/api/check?token=${localStorage["anyusung-team-token"]}`
         );
         return { success: success, id: id };
-    };
+    }
 
     const checkCorrect = async () => {
-        const {
-            data: { success, response },
-        } = await axios.post(
-            `https://anyusung.team/api/checkcorrect/${data.id}`,
-            { input: correct }
-        );
+        try {
+            const { success: Logged, id } = await tokenVerify();
+            console.log(Logged, id);
+            if (Logged) {
+                const {
+                    data: { success, response, desc },
+                } = await axios.post(
+                    `https://anyusung.team/api/checkcorrect/${data.id}`,
+                    { input: correct, userid: id }
+                );
 
-        if (success) {
-            if (!response) {
-                setIsCor("땡!!!!!!!!!!!!!");
-                setTimeout(() => setIsCor(""), 1000);
-            } else {
-                setIsCor("정답...점수 +10");
-                setTimeout(() => setIsCor(""), 1000);
-                const { success, id } = await tokenVerify();
                 if (success) {
-                    await axios.get(
-                        `https://anyusung.team/api/updatescore/${id}`
-                    );
+                    if (!response) {
+                        if (!desc) {
+                            setIsCor("땡!!!!!!!!!!!!!");
+                            setTimeout(() => {
+                                setIsCor("");
+                                setCorrect("");
+                            }, 1000);
+                        } else {
+                            setIsCor(desc);
+                            setTimeout(() => {
+                                setIsCor("");
+                                setCorrect("");
+                            }, 1000);
+                        }
+                    } else {
+                        setIsCor("정답...점수 +10");
+                        setTimeout(() => {
+                            setIsCor("");
+                            setCorrect("");
+                        }, 1000);
+                    }
+                } else {
+                    setIsCor(desc || "헉..정답 확인이 안돼요..");
+                    setTimeout(() => {
+                        setIsCor("");
+                        setCorrect("");
+                    }, 1000);
                 }
+            } else {
+                setIsCor("정답 확인은...로그인하면..");
+                setTimeout(() => {
+                    setIsCor("");
+                    setCorrect("");
+                }, 1000);
             }
-        } else {
-            setIsCor("헉..정답 확인이 안돼요..");
+        } catch (e) {
+            console.log(e);
+            setIsCor("정답 확인은...로그인하면..");
             setTimeout(() => setIsCor(""), 1000);
         }
     };

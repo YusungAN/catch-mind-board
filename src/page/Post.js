@@ -18,7 +18,34 @@ function Post() {
         }
     };
 
+    const tokenVerify = async () => {
+        const {
+            data: {
+                success,
+                info: { id },
+            },
+        } = await axios.get(
+            `https://anyusung.team/api/check?token=${localStorage["anyusung-team-token"]}`
+        );
+        return { success: success, id: id };
+    }
+
+    const getSolvedProblem = async () => {  
+        const {success, id} = await tokenVerify();
+        if (success) {
+            const {data: {success, response}} = await axios.get(`https://anyusung.team/api/checksolved/${id}`);
+            if (success) {
+                setSolved(response);
+            }
+        } else {
+            return;
+        }
+        
+
+    }
+
     const [posts, setPosts] = useState([1, 2, 3]);
+    const [solved, setSolved] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedPost, setSelectedPost] = useState(false);
     const [popUpOpened, setPopUpOpened] = useState(false);
@@ -39,8 +66,20 @@ function Post() {
         setSelectedPost(false);
     }
 
+    const isSolved = (id) => {
+        for (let i = 0; i < solved.length; i++) {
+            if (solved[i].postid === id) return true;
+        }
+        return false;
+    }
+
+    const changeColor = () => {
+
+    }
+
     useEffect(() => {
         getPosts();
+        getSolvedProblem();
     }, []);
 
     return (
@@ -48,8 +87,8 @@ function Post() {
             <Text>재밌는 그림들^^</Text>
             <FlexContainer>
                 { isLoading ? "로딩중..." 
-                : posts.map((item, index) => <PostBox key={index} id={item.id} imgdata={item.imgdata} author={item.author} open={openPopUp} />)}
-                <PopUp display={popUpOpened} close={closePopUp} data={selectedPost} />
+                : posts.map((item, index) => <PostBox key={index} id={item.id} imgdata={item.imgdata} author={item.author} open={openPopUp} color={isSolved(item.id)} />)}
+                <PopUp display={popUpOpened} close={closePopUp} data={selectedPost} solvedFunc={isSolved} />
             </FlexContainer>
         </>
     );
