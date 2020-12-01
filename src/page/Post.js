@@ -73,10 +73,6 @@ function Post() {
         return false;
     }
 
-    const changeColor = () => {
-
-    }
-
     useEffect(() => {
         getPosts();
         getSolvedProblem();

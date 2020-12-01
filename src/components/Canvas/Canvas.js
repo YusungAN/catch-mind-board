@@ -98,11 +98,10 @@ function Canvas({ onChange }) {
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", finishDraw);
         canvas.addEventListener("mouseout", finishDraw);
-
+        onChange(nowCanvas);
         const image = new Image();
         image.src = nowCanvas;
         ctx.drawImage(image, 0, 0);
-        onChange(nowCanvas);
     });
 
     const EraserBtn = style.img`
@@ -141,8 +140,6 @@ function Canvas({ onChange }) {
             <FlexColumnWrapper>{colorCopComponents}</FlexColumnWrapper>
         </FlexRowWrapper>
     );
-};
-
-
+}
 
 export default Canvas;

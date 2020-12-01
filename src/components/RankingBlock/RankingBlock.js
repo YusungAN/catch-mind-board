@@ -1,7 +1,7 @@
 import React from 'react'
 import style from 'styled-components';
 
-function RankingBlock({color, author, num}) {
+function RankingBlock({color, author, num, nowTab}) {
 
     const colorArr = ['gold', '#c0c0c0', 'brown'];
 
@@ -32,7 +32,7 @@ function RankingBlock({color, author, num}) {
     return (
         <Wrapper>
             <UpperItem>{color+1}등 | {author}</UpperItem>
-            <BelowItem>제출한 문제: {num}개</BelowItem>
+            <BelowItem>{nowTab ? `제출한 문제: ${num === undefined ? '' : num}개` : `점수: ${num === undefined ? '' : num}점`}</BelowItem>
         </Wrapper>
     );
 }

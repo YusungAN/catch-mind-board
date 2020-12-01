@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RankingBlock from "../components/RankingBlock";
-import style from 'styled-components';
+import style from "styled-components";
 
 function Ranking() {
     const [postRanking, setPostRanking] = useState([]);
+    const [isContRank, setIsContRank] = useState(true);
 
-    const getPostRanking = async () => {
+    const changeTab = () => {
+        if (isContRank === false) {
+            setPostRanking(['']);
+            getPostRanking('postRanking'); 
+            setIsContRank(true); 
+        } else {
+            setPostRanking(['']);
+            setIsContRank(false)
+            getPostRanking('scoreRanking');
+        }
+
+    }
+
+    const getPostRanking = async (s) => {
         try {
             const {
                 data: { success, response },
-            } = await axios.get("https://anyusung.team/api/postranking");
+            } = await axios.get(`https://anyusung.team/api/${s}`);
             if (success) {
                 setPostRanking(response);
                 //console.log(response);
@@ -23,7 +37,7 @@ function Ranking() {
     };
 
     useEffect(() => {
-        getPostRanking();
+        getPostRanking('postRanking');
     }, []);
 
     const Text = style.div`
@@ -39,16 +53,32 @@ function Ranking() {
         align-items: center;
     `;
 
+    const RowWrapper = style.div`
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    `;
+
     return (
         <Wrapper>
-            <Text>사이트의 일등공신들</Text>
+            <RowWrapper>
+                <button onClick={changeTab}>
+                    {isContRank ? '정답 랭킹 보기' : '문제 출제 랭킹 보기'}
+                </button>
+            </RowWrapper>
+            {isContRank ? (
+                <Text>사이트의 일등공신들</Text>
+            ) : (
+                <Text>정답 많이 맞춘 사람</Text>
+            )}
             {postRanking.map((item, index) => {
                 return (
                     <RankingBlock
                         key={index}
                         color={index}
                         author={item.nickname}
-                        num={item.postnum}
+                        num={isContRank ? item.postnum : item.score}
+                        nowTab={isContRank}
                     />
                 );
             })}
