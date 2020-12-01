@@ -1,9 +1,15 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, {
+    createRef,
+    useEffect,
+    useState,
+    forwardRef,
+    useImperativeHandle,
+} from "react";
 import s from "./canvas.module.css";
 import style from "styled-components";
 import img from "../../assets/eraser.png";
 
-function Canvas({ onChange }) {
+const Canvas = forwardRef(({ onChange, onDraw }, ref) => {
     let canvas, ctx;
     const canvasRef = createRef();
 
@@ -12,6 +18,17 @@ function Canvas({ onChange }) {
         x: 0,
         y: 0,
     };
+
+    useImperativeHandle(ref, () => ({
+        async savePicture() {
+            await console.log(canvas.toDataURL());
+            await setNowCanvas(canvas.toDataURL());
+            onChange(nowCanvas);
+            const image = new Image();
+            image.src = nowCanvas;
+            ctx.drawImage(image, 0, 0);
+        },
+    }));
 
     const [colorCopArr, setColorCopArr] = useState([
         { color: "red", clicked: false },
@@ -63,6 +80,7 @@ function Canvas({ onChange }) {
     };
 
     const initDraw = (e) => {
+        onDraw();
         ctx.beginPath();
         pos = { drawable: true, ...getPosition(e) };
         ctx.moveTo(pos.x, pos.y);
@@ -78,10 +96,6 @@ function Canvas({ onChange }) {
 
     const finishDraw = () => {
         pos = { drawable: false, x: 0, y: 0 };
-        setNowCanvas(canvas.toDataURL());
-        // setTimeout(() => {
-        //     setNowCanvas(canvas.toDataURL());
-        // }, 100);
     };
 
     const selectEraser = async () => {
@@ -103,7 +117,7 @@ function Canvas({ onChange }) {
         const image = new Image();
         image.src = nowCanvas;
         ctx.drawImage(image, 0, 0);
-    }
+    };
 
     useEffect(() => {
         innerUseEffect();
@@ -145,6 +159,6 @@ function Canvas({ onChange }) {
             <FlexColumnWrapper>{colorCopComponents}</FlexColumnWrapper>
         </FlexRowWrapper>
     );
-}
+});
 
 export default Canvas;

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Canvas from "../components/Canvas";
 import s from "../css/problem.module.css";
 import axios from "axios";
 
 function Problem({ history }) {
+    const childRef = useRef();
+    const [is, setIs] = useState(false);
+
     const [correct, setCorrect] = useState("");
     const [hint, setHint] = useState("");
     const [picture, setPicture] = useState("");
@@ -56,6 +59,10 @@ function Problem({ history }) {
     };
 
     const handleCorInput = async (e) => {
+        if (!is) {
+            childRef.current.savePicture();
+            setIs(true);
+        }
         const {
             target: { value },
         } = e;
@@ -63,6 +70,10 @@ function Problem({ history }) {
     };
 
     const handleHintInput = (e) => {
+        if (!is) {
+            childRef.current.savePicture();
+            setIs(true);
+        }
         const {
             target: { value },
         } = e;
@@ -80,7 +91,7 @@ function Problem({ history }) {
                 <div>
                     *너무 빠르게 그리면 뻗을 수 있으니 주의! (개발자 역량 부족)
                 </div>
-                <Canvas onChange={pictureAddress} />
+                <Canvas onChange={pictureAddress} onDraw={() => {setIs(false)}} ref={childRef} />
                 <input
                     type="text"
                     name="correct"
