@@ -42,6 +42,12 @@ function PopUp({ display, close, data }) {
         setCorrect(e.target.value);
     };
 
+    const enterKey = (e) => {
+        if (e.key === 'Enter') {
+            checkCorrect();
+        }
+    }
+
     const tokenVerify = async () => {
         const {
             data: {
@@ -56,6 +62,7 @@ function PopUp({ display, close, data }) {
 
     const checkCorrect = async () => {
         try {
+            setIsCor("엄...");
             const { success: Logged, id } = await tokenVerify();
             console.log(Logged, id);
             if (Logged) {
@@ -138,6 +145,7 @@ function PopUp({ display, close, data }) {
                             value={correct}
                             onChange={inputCorrect}
                             placeholder="정답을 입력하세요"
+                            onKeyPress={enterKey}
                         />
                         <input
                             type="submit"

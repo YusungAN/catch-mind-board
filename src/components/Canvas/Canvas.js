@@ -76,8 +76,9 @@ function Canvas({ onChange }) {
         }
     };
 
-    const finishDraw = async () => {
+    const finishDraw = () => {
         pos = { drawable: false, x: 0, y: 0 };
+        setNowCanvas(canvas.toDataURL());
         // setTimeout(() => {
         //     setNowCanvas(canvas.toDataURL());
         // }, 100);
@@ -89,7 +90,7 @@ function Canvas({ onChange }) {
         setNowColor("white");
     };
 
-    useEffect(() => {
+    const innerUseEffect = () => {
         canvas = canvasRef.current;
         ctx = canvas.getContext("2d");
         ctx.strokeStyle = nowColor;
@@ -102,6 +103,10 @@ function Canvas({ onChange }) {
         const image = new Image();
         image.src = nowCanvas;
         ctx.drawImage(image, 0, 0);
+    }
+
+    useEffect(() => {
+        innerUseEffect();
     });
 
     const EraserBtn = style.img`

@@ -18,6 +18,12 @@ function Login({ history }) {
         else if (name === "pw") setPw(value);
     };
 
+    const enterKey = (e) => {
+        if (e.key === 'Enter') {
+            sendData();
+        }
+    }
+
     const sendData = async () => {
         console.log("dd");
         try {
@@ -53,6 +59,7 @@ function Login({ history }) {
                     className={s.input}
                     value={id}
                     onChange={handleInput}
+                    autoFocus
                 />
                 <input
                     type="password"
@@ -61,6 +68,7 @@ function Login({ history }) {
                     placeholder="비밀번호"
                     value={pw}
                     onChange={handleInput}
+                    onKeyPress={enterKey}
                 />
                 <input
                     type="submit"

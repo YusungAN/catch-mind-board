@@ -22,6 +22,12 @@ function Register({history}) {
         
     }
 
+    const enterKey = (e) => {
+        if (e.key === 'Enter') {
+            sendData();
+        }
+    }
+
     const sendData = async () => {
         console.log('dd');
         try {
@@ -47,33 +53,24 @@ function Register({history}) {
         
     }
 
-    return (
-        <>
-            <div className={s.flexwrapper}>
-                <Text>회원 가입</Text>
-                <input type="text" name="id" placeholder="사용할 id 입력" className={s.input} value={id} onChange={handleInput} />
-                <input type="password" name="pw" className={s.input} placeholder="사용할 비밀번호" value={pw} onChange={handleInput} />
-                <input type="text" name="nickname" placeholder="사용할 닉네임 입력" className={s.input} value={nickName} onChange={handleInput} />
-                <WarningText>*DB에 비번 평문으로 저장됨. 그러니 비밀번호 대충 안 쓰는 걸로 지을 것.</WarningText>
-                <input type="submit" name="submit" value="회원가입" className={s.submit} onClick={sendData} />
-            </div>
-        </>
-    );
-}
-
-const Text = style.div`
+    const Text = style.div`
         @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
         font-family: "Do Hyeon", sans-serif;
         font-size: 5rem;
 
     `;
 
-const WarningText = style.div`
-    @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
-    font-family: "Do Hyeon", sans-serif;
-    font-size: 2rem;
-    color: red;
-    margin-top: 50px;
-`;
+    return (
+        <>
+            <div className={s.flexwrapper}>
+                <Text>회원 가입</Text>
+                <input type="text" name="id" placeholder="사용할 id 입력" className={s.input} value={id} onChange={handleInput} autoFocus />
+                <input type="password" name="pw" className={s.input} placeholder="사용할 비밀번호, 대충 지으세요" value={pw} onChange={handleInput} />
+                <input type="text" name="nickname" placeholder="사용할 닉네임 입력" className={s.input} value={nickName} onChange={handleInput} onKeyPress={enterKey} />
+                <input type="submit" name="submit" value="회원가입" className={s.submit} onClick={sendData} />
+            </div>
+        </>
+    );
+}
 
 export default Register;
