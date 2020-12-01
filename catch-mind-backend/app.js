@@ -373,6 +373,26 @@ app.get("/postranking", (req, res) => {
     );
 });
 
+app.get("/scoreranking", (req, res) => {
+    connection.query(
+        "select nickname, score from user where not score = 0 order by score desc",
+        (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    response: "랭킹을 불러오는데 실패했습니다",
+                });
+            } else {
+                res.json({
+                    success: true,
+                    response: rows,
+                });
+            }
+        }
+    );
+});
+
 http.listen(8000, () => {
     console.log("listening on *:8000");
 });
